@@ -1,38 +1,177 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+body {
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.TodoWrapper {
+  background: #3c3c63;
+  margin-top: 5rem;
+  padding: 2rem;
+  border-radius: 5px;
+  width: 100%;
+  margin: 0 auto;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.TodoForm {
+  width: 100%;
+  margin-bottom: 0,1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.todo-input {
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 300px;
+  color: #fff;
+}
+
+.todo-input::placeholder {
+  color: #fff;
+}
+
+.todo-btn {
+  background: #8758ff;
+  color: #fff;
+  border: none;
+  padding: 0.55rem;
+  cursor: pointer;
+}
+
+.Todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  color: #fff;
+  padding: 0.30rem 1rem;
+  font-size: medium;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.fa-trash {
+  margin-left: 0.75rem;
+}
+
+.incompleted {
+  color: #fff;
+  cursor: pointer;
+}
+
+.completed {
+  color: #c5aeff;
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.edit-icon,
+.delete-icon {
+  cursor: pointer;
+}
+
+/* Styles for the filter dropdown */
+.filter-dropdown {
+  outline: none;
+  background: none;
+  border: 1px solid #8758ff;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 300px;
+  color: #fff;
+}
+
+.filter-dropdown:hover {
+  background-color: #6745cc;
+}
+
+.form-and-filter {
+  display: flex;
+  align-items: center;
+}
+
+/* Default styles for larger screens */
+
+/* Media query for screens up to 600px width (small screens) */
+@media only screen and (max-width: 600px) {
+  /* Adjust font size for better readability on small screens */
+  body {
+    font-size: 14px;
   }
-  to {
-    transform: rotate(360deg);
+
+  /* Increase padding and reduce margin for smaller screens */
+  .TodoWrapper {
+    padding: 1rem;
+    margin-top: 3rem;
   }
+
+  /* Adjust width and margin for the input field */
+  .todo-input {
+    width: 70%;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Adjust button styles for smaller screens */
+  .todo-btn {
+    width: 15%;
+    padding: 0.5rem;
+  }
+
+  /* Reduce padding and margin for Todo items */
+  .Todo {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Increase margin for icons on small screens */
+  .fa-trash {
+    margin-left: 0.25rem;
+  }
+
+  /* Adjust margin for completed and incompleted text */
+  .incompleted,
+  .completed {
+    margin-top: 0.25rem;
+  }
+
+  /* Adjust margin for filter dropdown */
+  .filter-dropdown {
+    width: 32
+    0px;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-and-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.modal {
+  border-radius: 1rem;
+  min-width: 20rem;
+}
+
+.h3 {
+  color: red;
 }
