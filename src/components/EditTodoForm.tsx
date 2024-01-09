@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 
-//to open the edit input when the edit icon is clicked
-function EditTodoForm({ editTodo, task }) {
-  const [value, setValue] = useState(task.task);
+interface EditTodoFormProps {
+  editTodo: (task: string, id: string) => void;
+  task: {
+    id: string;
+    task: string;
+    completed: boolean;
+    isEditing: boolean;
+  };
+}
 
-  const handleSubmit = (e) => {
+// To open the edit input when the edit icon is clicked
+const EditTodoForm: React.FC<EditTodoFormProps> = ({ editTodo, task }) => {
+  const [value, setValue] = useState<string>(task.task);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     editTodo(value, task.id);
 
     setValue("");
   };
+
   return (
     <form className="TodoForm" onSubmit={handleSubmit}>
       <input

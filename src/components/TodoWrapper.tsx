@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TodoForm from "./TodoForm";
+import { TodoForm } from "./TodoForm";
 import { v4 as uuidv4 } from "uuid";
 import Todo from "./Todo";
 import EditTodoForm from "./EditTodoForm";
@@ -9,36 +9,45 @@ import { Modal } from "react-responsive-modal";
 // Generate a unique identifier using uuid which has 128 bit
 uuidv4();
 
-// Fetch tasks from local storage and converting into a javaScript object or use an empty array if none exist
-const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
+// Define the type for a single todo item
+interface TodoItem {
+  id: string;
+  task: string;
+  completed: boolean;
+  isEditing: boolean;
+}
+
+// Fetch tasks from local storage and convert into a JavaScript object or use an empty array if none exist
+const TASKS: TodoItem[] = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
 
 function TodoWrapper() {
-  const [todos, setTodos] = useState(TASKS);
-  const [todo, setTodo] = useState(null);
-  const [filter, setFilter] = useState("all");
-  const [open, setOpen] = useState(false);
+  const [todos, setTodos] = useState<TodoItem[]>(TASKS);
+  const [todo, setTodo] = useState<TodoItem | null>(null);
+  const [filter, setFilter] = useState<string>("all");
+  const [open, setOpen] = useState<boolean>(false);
 
   // Open modal with selected todo to delete todo
-  const onOpenModal = (selectTodo) => {
+  const onOpenModal = (selectTodo: TodoItem) => {
     setTodo(selectTodo);
     setOpen(true);
   };
-  //close modal and reset todo state
+
+  // Close modal and reset todo state
   const onCloseModal = () => {
     setTodo(null);
     setOpen(false);
   };
 
-  //add new todo
-  const addTodo = (todo) => {
+  // Add new todo
+  const addTodo = (newTodo: string) => {
     setTodos([
       ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false },
+      { id: uuidv4(), task: newTodo, completed: false, isEditing: false },
     ]);
   };
 
-  //switch complete status
-  const toggleComplete = (id) => {
+  // Switch complete status
+  const toggleComplete = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -47,13 +56,13 @@ function TodoWrapper() {
   };
 
   // Delete a todo and close the modal
-  const deleteTodo = (id) => {
+  const deleteTodo = (id: string) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     onCloseModal();
   };
 
-  //change editing status
-  const editTodo = (id) => {
+  // Change editing status
+  const editTodo = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
@@ -61,14 +70,15 @@ function TodoWrapper() {
     );
   };
 
-  //edit or update a task
-  const editTask = (task, id) => {
+  // Edit or update a task
+  const editTask = (updatedTask: string, id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, task, isEditing: !todo.isEditing } : todo
+        todo.id === id ? { ...todo, task: updatedTask, isEditing: !todo.isEditing } : todo
       )
     );
   };
+
   // Filter todos based on the selected filter
   const filteredTodos = todos.filter((todo) => {
     if (filter === "all") {
@@ -81,7 +91,7 @@ function TodoWrapper() {
     return true;
   });
 
-  // Save todos to local storage everytime the todos state is altered
+  // Save todos to local storage every time the todos state is altered
   useEffect(() => {
     localStorage.setItem("maviance-todos", JSON.stringify(todos));
   }, [todos]);
@@ -90,7 +100,7 @@ function TodoWrapper() {
     <div className="TodoWrapper">
       <h1>Get Tasks Done!</h1>
       <div className="form-and-filter">
-        {/** passing the addTodo as property to the todoForm*/}
+        {/** Passing the addTodo as property to the TodoForm */}
         <TodoForm addTodo={addTodo} />
         {/* Dropdown for selecting the filter */}
         <select
@@ -118,6 +128,7 @@ function TodoWrapper() {
           />
         )
       )}
+
       {/* Modal for confirming task deletion */}
       <Modal
         open={open}
@@ -131,7 +142,7 @@ function TodoWrapper() {
         <h2>{todo?.task}</h2>
         <div className=".delete-modal">
           <button onClick={onCloseModal}>No, Keep</button>
-          <button className="h3" onClick={() => deleteTodo(todo?.id)}>
+          <button className="h3" onClick={() => deleteTodo(todo?.id || "")}>
             Yes, Delete
           </button>
         </div>
