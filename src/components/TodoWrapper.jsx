@@ -10,10 +10,10 @@ import { Modal } from "react-responsive-modal";
 uuidv4();
 
 // Fetch tasks from local storage and converting into a javaScript object or use an empty array if none exist
-const DB_TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
+const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
 
 function TodoWrapper() {
-  const [todos, setTodos] = useState(DB_TASKS);
+  const [todos, setTodos] = useState(TASKS);
   const [todo, setTodo] = useState(null);
   const [filter, setFilter] = useState("all");
   const [open, setOpen] = useState(false);
@@ -129,10 +129,12 @@ function TodoWrapper() {
       >
         <h3 className="h3">Are you sure you want to delete this task?</h3>
         <h2>{todo?.task}</h2>
-        <button onClick={onCloseModal}>No, Keep</button>
-        <button className="h3" onClick={() => deleteTodo(todo?.id)}>
-          Yes, Delete
-        </button>
+        <div className=".delete-modal">
+          <button onClick={onCloseModal}>No, Keep</button>
+          <button className="h3" onClick={() => deleteTodo(todo?.id)}>
+            Yes, Delete
+          </button>
+        </div>
       </Modal>
     </div>
   );
