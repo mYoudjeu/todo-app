@@ -1,11 +1,13 @@
+// TodoForm.tsx
 import React, { useState, useRef, FormEvent } from 'react';
 import { Modal } from 'react-responsive-modal';
+import { useTodoContext } from '../TodoContext';
 
 interface TodoFormProps {
-  addTodo: (todo: string) => void;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
+const TodoForm: React.FC<TodoFormProps> = () => {
+  const { addTodo } = useTodoContext();
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
 
@@ -54,4 +56,4 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
   );
 };
 
-export {TodoForm};
+export { TodoForm };
