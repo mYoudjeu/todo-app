@@ -1,12 +1,14 @@
 // TodoWrapper.tsx
 import React from 'react';
-import { TodoForm } from './TodoForm';
-import Todo from './Todo';
-import EditTodoForm from './EditTodoForm';
+import { TodoForm } from 'components/TodoForm';
+import Todo from 'components/Todo';
+import EditTodoForm from 'components/EditTodoForm';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import { useTodoContext } from '../TodoContext';
+import { useTodoContext } from 'TodoContext';
+//import { useTodoContext } from '../TodoContext';
 import { v4 as uuidv4 } from "uuid";
+
 
 uuidv4();
 
@@ -24,7 +26,6 @@ function TodoWrapper() {
     isEditing: boolean;
   }
 
-  const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
   const onOpenModal = (selectTodo : TodoItem) => {
     setTodo(selectTodo);
     setOpen(true);
@@ -46,9 +47,7 @@ function TodoWrapper() {
     return true;
   });
 
-  React.useEffect(() => {
-    localStorage.setItem('maviance-todos', JSON.stringify(todos));
-  }, [todos]);
+
 
   return (
     <div className="TodoWrapper">

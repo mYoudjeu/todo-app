@@ -1,18 +1,12 @@
 // TodoContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { v4 as uuidv4 } from "uuid";
+import Todo from "models/TodoModel"
 
 uuidv4();
 
 interface TodoContextProps {
   children: ReactNode;
-}
-
-interface Todo {
-  id: string;
-  task: string;
-  completed: boolean;
-  isEditing: boolean;
 }
 
 interface TodoContextValue {
@@ -32,15 +26,15 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>(TASKS);
 
   const addTodo = (newTodo: string) => {
-    setTodos((prevTodos) => [
-      ...prevTodos,
+    setTodos((todos) => [
+      ...todos,
       { id: uuidv4(), task: newTodo, completed: false, isEditing: false },
-    ]);
+    ]);5                                                           
   };
 
   const toggleComplete = (id: string) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
+    setTodos((todos) =>
+      todos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
@@ -51,16 +45,16 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   };
 
   const editTodo = (id: string) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
+    setTodos((todos) =>
+      todos.map((todo) =>
         todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
       )
     );
   };
 
  const editTask = (updatedTask: string, id: string) => {
-  setTodos((prevTodos) =>
-    prevTodos.map((todo) =>
+  setTodos((todos) =>
+    todos.map((todo) =>
       todo.id === id ? { ...todo, task: updatedTask, isEditing: !todo.isEditing } : todo
     )
   );

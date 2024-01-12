@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useTodoContext } from "../TodoContext";
+import { useTodoContext } from "TodoContext";
 
 interface TodoProps {
 
@@ -26,7 +26,7 @@ const Todo: React.FC<TodoProps> = ({task, deleteTodo}) => {
       >
         {task.task}
       </p>
-      <div>
+      <div className="pointer">
         <FontAwesomeIcon
           icon={faPenToSquare}
           onClick={() => editTodo(task.id)}
