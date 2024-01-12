@@ -9,7 +9,6 @@ import { useTodoContext } from 'TodoContext';
 //import { useTodoContext } from '../TodoContext';
 import { v4 as uuidv4 } from "uuid";
 
-
 uuidv4();
 
 
@@ -19,7 +18,7 @@ function TodoWrapper() {
   const [filter, setFilter] = React.useState('all');
   const [open, setOpen] = React.useState(false);
 
-  interface TodoItem {
+   interface TodoItem {
     id: string;
     task: string;
     completed: boolean;
@@ -89,7 +88,7 @@ function TodoWrapper() {
         <h2>{todo?.task}</h2>
         <div className=".delete-modal">
           <button onClick={onCloseModal}>No, Keep</button>
-          <button className="h3" onClick={() => deleteTodo(todo?.id || '')}>
+          <button className="h3" onClick={() => deleteTodo(todo?.id || '', onCloseModal() )}>
             Yes, Delete
           </button>
         </div>

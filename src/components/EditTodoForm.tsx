@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTodoContext } from "TodoContext";
 
-interface EditTodoFormProps {
+ interface EditTodoFormProps {
   task: {
     id: string;
     task: string;
@@ -21,7 +21,6 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ task }) => {
     editTask(value, task.id);
 
     setValue("");
-    console.log("new value is", value);
     
   };
 

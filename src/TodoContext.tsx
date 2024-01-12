@@ -13,7 +13,7 @@ interface TodoContextValue {
   todos: Todo[];
   addTodo: (newTodo: string) => void;
   toggleComplete: (id: string) => void;
-  deleteTodo: (id: string) => void;
+  deleteTodo: (id: string, closeModal: any) => void;
   editTodo: (id: string) => void;
   editTask: (updatedTask: string, id: string) => void;
 }
@@ -40,8 +40,9 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     );
   };
 
-  const deleteTodo = (id: string) => {
+  const deleteTodo = (id: string, closeModal: any ) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    closeModal
   };
 
   const editTodo = (id: string) => {

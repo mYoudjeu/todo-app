@@ -15,6 +15,8 @@ const TodoForm: React.FC = () => {
 
     if (value.trim() !== '') {
       addTodo(value);
+      console.log("hello test");
+      
       setValue('');
     } else {
       setOpen(true);
@@ -48,6 +50,7 @@ const TodoForm: React.FC = () => {
         }}
       >
         <h3 className="h3">Please enter a task before adding.</h3>
+        
       </Modal>
     </form>
   );
