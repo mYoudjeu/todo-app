@@ -21,6 +21,8 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ task }) => {
     editTask(value, task.id);
 
     setValue("");
+    console.log("new value is", value);
+    
   };
 
   return (
