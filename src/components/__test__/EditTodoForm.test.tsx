@@ -20,7 +20,7 @@ it("renders EditTodoForm component", () => {
   expect(getByPlaceholderText("Edit task")).toBeInTheDocument();
 });
 
-it("update task", async () => {
+it("update or edit task", async () => {
   const { getByPlaceholderText, getByText } = render(
     <TodoProvider>
       <EditTodoForm task={mockTask} />
