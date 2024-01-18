@@ -8,7 +8,6 @@ import { useTodoContext } from "TodoContext";
     completed: boolean;
     isEditing: boolean;
   };
-  key: number;
 }
 
 // To open the edit input when the edit icon is clicked

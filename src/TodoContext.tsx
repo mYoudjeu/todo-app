@@ -80,7 +80,7 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
 export const useTodoContext = () => {
   const context = useContext(TodoContext);
   if (!context) {
-    throw new Error('useTodoContext must be used within a TodoProvider');
+    throw new Error('context must be used within a TodoProvider');
   }
   
   return context;

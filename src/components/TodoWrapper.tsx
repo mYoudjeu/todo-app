@@ -82,7 +82,8 @@ function TodoWrapper() {
         center
         classNames={{
           modal: 'modal',
-        }}
+        }} 
+        data-testid = "delmodal"
       >
         <h3 className="h3">Are you sure you want to delete this task?</h3>
         <h2>{todo?.task}</h2>

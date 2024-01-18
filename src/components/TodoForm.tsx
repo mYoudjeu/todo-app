@@ -15,7 +15,6 @@ const TodoForm: React.FC = () => {
 
     if (value.trim() !== '') {
       addTodo(value);
-      console.log("hello test");
       
       setValue('');
     } else {
@@ -26,9 +25,11 @@ const TodoForm: React.FC = () => {
   const onCloseModal = () => {
     setOpen(false);
   };
+  console.log("hello");
+  
 
   return (
-    <form className="TodoForm" onSubmit={handleSubmit}>
+    <form id="todoForm" className="TodoForm" onSubmit={handleSubmit}>
       <input
         type="text"
         value={value}

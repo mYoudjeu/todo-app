@@ -28,10 +28,14 @@ const Todo: React.FC<TodoProps> = ({task, deleteTodo}) => {
       </p>
       <div className="pointer">
         <FontAwesomeIcon
-          icon={faPenToSquare}
-          onClick={() => editTodo(task.id)}
+        data-testid = "editButton" 
+        icon={faPenToSquare}
+        onClick={() => editTodo(task.id)}
         />
-        <FontAwesomeIcon icon={faTrash} onClick={() => deleteTodo(task.id)} />
+        <FontAwesomeIcon 
+        data-testid = "deleteButton" 
+        icon={faTrash} 
+        onClick={() => deleteTodo(task.id)} />
       </div>
     </div>
   );
