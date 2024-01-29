@@ -18,6 +18,7 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ task }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     editTask(value, task.id);
+    
 
     setValue("");
     
