@@ -9,6 +9,7 @@ const mockTask = {
   id: '1',
   task: 'Test Task',
   completed: false,
+  isImportant: false,
 };
 
 test('renders Todo component', () => {
@@ -29,6 +30,7 @@ test('calls deleteTodo when delete button is clicked', () => {
     id: '1',
     task: 'Test Task',
     completed: false,
+    isImportant: false,
   };
    
   const { getByTestId, getByText } = render(
@@ -52,6 +54,7 @@ test('calls EditTodoForm when edit button is clicked', () => {
       id: '1',
       task: 'Test Task',
       completed: false,
+      isImportant: false,
     };
      
     const { getByTestId, getByText } = render(

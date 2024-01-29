@@ -45,6 +45,11 @@ h1 {
   color: #fff;
 }
 
+.moveTodo {
+  transform: translate(50px,10px);
+  /* animation: moveSlider0 1s forwards; */
+}
+
 .todo-input::placeholder {
   color: #fff;
 }

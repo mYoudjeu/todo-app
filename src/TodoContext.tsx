@@ -1,7 +1,9 @@
 // TodoContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { v4 as uuidv4 } from "uuid";
-import Todo from "models/TodoModel"
+import TodoModel from "models/TodoModel"
+import Data from 'models/DataModel';
+import Todo from 'components/Todo';
 
 uuidv4();
 
@@ -10,12 +12,13 @@ interface TodoContextProps {
 }
 
 interface TodoContextValue {
-  todos: Todo[];
+  todos: TodoModel[];
   addTodo: (newTodo: string) => void;
   toggleComplete: (id: string) => void;
   deleteTodo: (id: string, closeModal: any) => void;
   editTodo: (id: string) => void;
   editTask: (updatedTask: string, id: string) => void;
+  reorder: (id : string) => void;
 }
 
 const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
@@ -23,13 +26,16 @@ const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
 const TodoContext = createContext<TodoContextValue | undefined>(undefined);
 
 export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
-  const [todos, setTodos] = useState<Todo[]>(TASKS);
+  const [todos, setTodos] = useState<TodoModel[]>(TASKS);
+  const [items, setItems] = useState<TodoModel[]>();
 
   const addTodo = (newTodo: string) => {
     setTodos((todos) => [
       ...todos,
-      { id: uuidv4(), task: newTodo, completed: false, isEditing: false },
-    ]);5                                                           
+      { id: uuidv4(), task: newTodo, completed: false, isEditing: false, isImportant: false },
+    ]);
+    console.log("todo list",todos);
+                                                               
   };
 
   const toggleComplete = (id: string) => {
@@ -61,6 +67,28 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   );
 };
 
+const reorder = (id: string) => {
+  setTodos((todos) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, isImportant: !todo.isImportant } : todo
+    );
+
+    // Find the index of the task with the specified ID
+    const taskIndex = updatedTodos.findIndex((todo) => todo.id === id);
+
+    // Move the task to the beginning of the array
+    if (taskIndex !== -1) {
+      const movedTask = updatedTodos.splice(taskIndex, 1)[0];
+      const newIndex = movedTask.isImportant ? 0 : taskIndex;
+      updatedTodos.splice(newIndex, 0, movedTask);
+    }
+
+    return updatedTodos;
+  });
+};
+
+
+
   const contextValue: TodoContextValue = {
     todos,
     addTodo,
@@ -68,6 +96,7 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     deleteTodo,
     editTodo,
     editTask,
+    reorder
   };
 
   React.useEffect(() => {

@@ -8,6 +8,7 @@ import { Modal } from 'react-responsive-modal';
 import { useTodoContext } from 'TodoContext';
 //import { useTodoContext } from '../TodoContext';
 import { v4 as uuidv4 } from "uuid";
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 uuidv4();
 
@@ -49,6 +50,7 @@ function TodoWrapper() {
 
 
   return (
+   
     <div className="TodoWrapper">
       <h1>Get Tasks Done!</h1>
       <div className="form-and-filter">
@@ -63,7 +65,7 @@ function TodoWrapper() {
           <option value="uncompleted">Uncompleted</option>
         </select>
       </div>
-
+    
       {filteredTodos.map((todo, index) =>
         todo.isEditing ? (
           <EditTodoForm task={todo} key={index} />

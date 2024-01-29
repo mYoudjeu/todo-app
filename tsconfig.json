@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "baseUrl": "./src", // Set to your source directory
+      "baseUrl": "./src", // Set to source directory
     "paths": {
       "components/*": ["components/*"]
     },
