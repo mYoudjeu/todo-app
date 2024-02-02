@@ -19,6 +19,8 @@ const EditTodoForm: React.FC<EditTodoFormProps> = ({ task }) => {
     e.preventDefault();
     editTask(value, task.id);
     setValue("");
+    console.log("hello");
+    
     
   };
 
