@@ -20,7 +20,7 @@ it("renders EditTodoForm component", () => {
   expect(getByPlaceholderText("Edit task")).toBeInTheDocument();
 });
 
-it("update or edit task", async () => {
+it("update task", async () => {
   const { getByPlaceholderText, getByText } = render(
     <TodoProvider>
       <EditTodoForm task={mockTask} />
@@ -30,6 +30,5 @@ it("update or edit task", async () => {
   //find the edit task input and enter updated task and click the edit button
   const inputElement = getByPlaceholderText("Edit task");
   fireEvent.change(inputElement, { target: { value: "Updated Task" } });
- 
-    fireEvent.click(getByText("Edit"));
+  fireEvent.click(getByText("Edit"));
 });

@@ -2,27 +2,25 @@
 
 
 body {
-  background: white;
-  display: flex;
+  background: #f5f5f5;
   justify-content: center;
   align-items: center;
 }
 
 h1 {
-  color: #fff;
+  color: #555;
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
   text-align: center;
 }
 
 .TodoWrapper {
-  background: #3c3c63;
-  margin-top: 5rem;
-  padding: 2rem;
+  padding-bottom: 100px;
+  background: #f5f5f5;
   border-radius: 5px;
   width: 100%;
-  margin: 0 auto;
   align-items: center;
+  margin: 50px;
 }
 .pointer{
   cursor: pointer;
@@ -37,12 +35,32 @@ h1 {
 .todo-input {
   outline: none;
   background: none;
-  border: 1px solid #8758ff;
+  border: 1px solid #999;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: #555;
+  border-radius: 5px;
+}
+
+.sub-todo {
+  display: flex;
+  align-items: center;
+  width: -webkit-fill-available;
+}
+
+.sub-todo-input {
+  outline: none;
+  background: none;
+  border: 1px solid #999;;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 160px;
+  color: #555;
+  border-radius: 5px;
+  
 }
 
 .moveTodo {
@@ -51,31 +69,54 @@ h1 {
 }
 
 .todo-input::placeholder {
-  color: #fff;
+  color: #555;
 }
 
 .todo-btn {
-  background: #8758ff;
-  color: #fff;
+  background: green;
+  border: 1px solid #999;
+  color: white;
   border: none;
   padding: 0.55rem;
   cursor: pointer;
+  border-radius: 5px;
+  margin: 2px;
 }
 
 .Todo {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #8758ff;
-  color: #fff;
+  background: white;
+  color: #555;
+  font-weight: 500;
   padding: 0.30rem 1rem;
   font-size: medium;
   border-radius: 5px;
   margin-bottom: 1rem;
+  box-shadow: 0 3px 9px #ccc;
+}
+
+.sidebar {
+  box-shadow: 0 0 9px #ccc;
+}
+
+.todo-display{
+  margin: 8px 16px;
+  display: flex;
+  align-items: center;
+  width: -webkit-fill-available;
 }
 
 .fa-trash {
   margin-left: 0.75rem;
+}
+
+.fa-star {
+  margin-left: 0.75rem;
+}
+
+.icons-display{
+  margin: 10px;
 }
 
 .incompleted {
@@ -84,30 +125,47 @@ h1 {
 }
 
 .completed {
-  color: #c5aeff;
+  color: #bbb;
   text-decoration: line-through;
   cursor: pointer;
 }
-
-.edit-icon,
-.delete-icon {
-  cursor: pointer;
+.circle-icon {
+  border-right: 2px solid #eee;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 50px;
+  padding-right: 10px;
 }
+.circle-display {
+  display: flex;
+}
+
+.fa-trash{
+  margin-left: 0.99rem;
+}
+.fa-square-plus{
+  margin-left: 0.88rem;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
 
 /* Styles for the filter dropdown */
 .filter-dropdown {
   outline: none;
   background: none;
-  border: 1px solid #8758ff;
+  border: 1px solid #999;
   padding: 0.5rem 1rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
   width: 300px;
-  color: #fff;
+  color: #555;
+  border-radius: 5px;
 }
 
 .filter-dropdown:hover {
-  background-color: #6745cc;
+  background-color: #eee;
 }
 
 .form-and-filter {

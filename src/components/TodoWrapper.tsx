@@ -8,25 +8,19 @@ import { Modal } from 'react-responsive-modal';
 import { useTodoContext } from 'TodoContext';
 //import { useTodoContext } from '../TodoContext';
 import { v4 as uuidv4 } from "uuid";
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import SideBar from 'components/SideBar';
+import TodoModel from 'models/TodoModel';
 
 uuidv4();
 
 
 function TodoWrapper() {
   const { todos, deleteTodo } = useTodoContext();
-  const [todo, setTodo] = React.useState<TodoItem | null>(null);
+  const [todo, setTodo] = React.useState<TodoModel | null>(null);
   const [filter, setFilter] = React.useState('all');
   const [open, setOpen] = React.useState(false);
 
-   interface TodoItem {
-    id: string;
-    task: string;
-    completed: boolean;
-    isEditing: boolean;
-  }
-
-  const onOpenModal = (selectTodo : TodoItem) => {
+  const onOpenModal = (selectTodo : TodoModel) => {
     setTodo(selectTodo);
     setOpen(true);
   };
@@ -50,7 +44,9 @@ function TodoWrapper() {
 
 
   return (
-   
+    <div className='form-and-filter'>
+      <SideBar/>
+    
     <div className="TodoWrapper">
       <h1>Get Tasks Done!</h1>
       <div className="form-and-filter">
@@ -96,6 +92,7 @@ function TodoWrapper() {
           </button>
         </div>
       </Modal>
+    </div>
     </div>
   );
 }

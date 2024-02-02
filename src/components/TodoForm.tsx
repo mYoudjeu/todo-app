@@ -1,5 +1,5 @@
 // TodoForm.tsx
-import React, { useState, useRef, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Modal } from 'react-responsive-modal';
 import { useTodoContext } from 'TodoContext';
 
@@ -8,13 +8,12 @@ const TodoForm: React.FC = () => {
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
 
-  const myRef = useRef(null);
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (value.trim() !== '') {
       addTodo(value);
+      
       
       setValue('');
     } else {
@@ -25,7 +24,6 @@ const TodoForm: React.FC = () => {
   const onCloseModal = () => {
     setOpen(false);
   };
-  console.log("hello");
   
 
   return (

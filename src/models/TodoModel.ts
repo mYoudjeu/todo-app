@@ -4,6 +4,7 @@ interface TodoModel {
   completed: boolean;
   isEditing: boolean;
   isImportant: boolean;
+  openSidebar: boolean;
 }
 
 export default TodoModel;
