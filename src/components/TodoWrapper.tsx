@@ -28,6 +28,8 @@ function TodoWrapper() {
   const onCloseModal = () => {
     setTodo(null);
     setOpen(false);
+    console.log("hello");
+    
   };
 
   const filteredTodos = todos.filter((todo) => {
