@@ -2,10 +2,12 @@
 import { useTodoContext } from 'TodoContext';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import React, { useState, FormEvent, useEffect } from 'react';
-import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
+import { faPlusSquare, faCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCircle as circleSolid } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SubTodoModel from 'models/SubTodoModel';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import Todo from './Todo';
 
 function SideBar() {
   const { cTodo } = useTodoContext();
@@ -13,16 +15,18 @@ function SideBar() {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    const storedSubtasks = JSON.parse(localStorage.getItem(`subtasks-${cTodo?.id}`) || '[]');
-    setSubTasks(storedSubtasks);
+    if (cTodo) {
+      const storedSubtasks = JSON.parse(localStorage.getItem(`subtasks-${cTodo.id}`) || '[]');
+      setSubTasks(storedSubtasks);
+    }
   }, [cTodo]);
-  
+
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (value.trim() !== '') {
-      const newSubTask: SubTodoModel = { id: generateUniqueId(), parentId: cTodo?.id || '', subTask: value , completed:false};
+      const newSubTask: SubTodoModel = { id: generateUniqueId(), parentId: cTodo?.id || '', subTask: value, completed: false };
       setSubTasks((prevSubTasks) => [...prevSubTasks, newSubTask]);
       setValue('');
 
@@ -30,8 +34,24 @@ function SideBar() {
     }
   };
 
-  const deleteTodo = (id: string ) => {
-    setSubTasks((prevTodos) => prevTodos.filter((subTodo) => subTodo.id !== id));
+  const toggleComplete = (id: string) => {
+    setSubTasks((subTasks) =>
+      subTasks.map((subTask) =>
+        subTask.id === id ? { ...subTask, completed: !subTask.completed } : subTask)
+    );
+    const updatedSubTasks = subTasks.map((subTask) =>
+      subTask.id === id ? { ...subTask, completed: !subTask.completed } : subTask
+    );
+    localStorage.setItem(`subtasks-${cTodo?.id}`, JSON.stringify(updatedSubTasks));
+
+  }
+
+  const deleteTodo = (id: string) => {
+    setSubTasks((prevSubTasks) => {
+      const updatedSubTasks = prevSubTasks.filter((subTodo) => subTodo.id !== id);
+      localStorage.setItem(`subtasks-${cTodo?.id}`, JSON.stringify(updatedSubTasks));
+      return updatedSubTasks;
+    });
   };
 
   const generateUniqueId = () => {
@@ -42,28 +62,35 @@ function SideBar() {
 
   return (
     <div className='sidebar' style={{ display: 'flex', height: '100%', minHeight: '699px' }}>
-      
+
       <Sidebar collapsed={false} backgroundColor="white">
         <Menu>
-          <MenuItem>Task: {cTodo?.todo}</MenuItem>
-          <p>Please add steps to your task</p>
+          <MenuItem style={{ fontSize: 20, textAlign: 'center' }}>Task: {cTodo?.todo}</MenuItem>
+          <p style={{ margin: 10 }}>Please add steps to your task</p>
           <form onSubmit={handleSubmit}>
             {subTasks.map((subTask, index) => (
               <MenuItem key={index}>
                 <div className='form-and-filter'>
-                <p className='sub-todo'>{subTask.subTask}</p>
-                <FontAwesomeIcon
-                  icon={faX} 
-                  color='red'
-                  onClick={() => deleteTodo(subTask.id)} 
+                  <FontAwesomeIcon
+                    icon={subTask.completed ? circleSolid : faCircle}
+                    color="#3e69e4"
+                    onClick={() => toggleComplete(subTask.id)}
+                    style={{ width: 40 }}
                   />
-                  </div>
+                  <p className='sub-todo'>{subTask.subTask}</p>
+                  <FontAwesomeIcon
+                    icon={faX}
+                    color='red'
+                    onClick={() => deleteTodo(subTask.id)}
+                  />
+                </div>
               </MenuItem>
             ))}
 
-            <div className="form-and-filter">
+            <div className="form-and-filter" >
               <input
-                size={5}
+                style={{ margin: 10, width: 170 }}
+                size={70}
                 type="text"
                 value={value}
                 className="sub-todo-input"
@@ -75,6 +102,7 @@ function SideBar() {
                 onClick={handleSubmit}
                 icon={faPlusSquare}
                 color='green'
+                style={{ marginTop: 10, margin: 1 }}
               />
             </div>
           </form>

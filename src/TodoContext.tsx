@@ -13,15 +13,15 @@ interface TodoContextProps {
 
 interface TodoContextValue {
   todos: TodoModel[];
-  cTodo: currentTodoModel|null;
+  cTodo: currentTodoModel | null;
   sTodo: SubTodoModel[]
   addTodo: (newTodo: string) => void;
   toggleComplete: (id: string) => void;
   deleteTodo: (id: string, closeModal: any) => void;
   editTodo: (id: string) => void;
   editTask: (updatedTask: string, id: string) => void;
-  reorder: (id : string) => void;
-  currentTodo: (task : string, id:string) => void
+  reorder: (id: string) => void;
+  currentTodo: (task: string, id: string) => void
 
 }
 const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
@@ -32,32 +32,52 @@ const TodoContext = createContext<TodoContextValue | undefined>(undefined);
 
 export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   const [todos, setTodos] = useState<TodoModel[]>(TASKS);
-  const [cTodo, setCTodo] = useState<currentTodoModel|null>(null);
+  const [cTodo, setCTodo] = useState<currentTodoModel | null>(null);
   const [sTodo, setSTodo] = useState<SubTodoModel[]>(SUB_TASK)
 
   const addTodo = (newTodo: string) => {
     setTodos((todos) => [
       ...todos,
-      { id: uuidv4(), task: newTodo, completed: false, isEditing: false, isImportant: false, openSidebar:false },
-    ]);                                                         
+      { id: uuidv4(), task: newTodo, completed: false, isEditing: false, isImportant: false, openSidebar: false },
+    ]);
   };
 
-  const currentTodo = (task: string, id:string) => {
+  const currentTodo = (task: string, id: string) => {
     setCTodo(
-      {todo: task, id:id, openBar: true }
-      );  
+      { todo: task, id: id, openBar: true }
+    );
   };
 
   const toggleComplete = (id: string) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    
-    );
-  }; 
+    const subTasksForCurrentTask = JSON.parse(localStorage.getItem(`subtasks-${id}`) || '[]');
 
-  const deleteTodo = (id: string, closeModal: any ) => {
+    if (subTasksForCurrentTask.length > 0) {
+      // Check if all subtasks are completed
+      const allSubtasksCompleted = subTasksForCurrentTask.every((subTask: SubTodoModel) => subTask.completed);
+
+      if (allSubtasksCompleted) {
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) =>
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+          )
+        );
+      } else {
+        // Handle the case when not all subtasks are completed (if needed)
+        alert("Complete all subtasks first!")
+      }
+    } else {
+      // If there are no subtasks, simply toggle the state of the main task
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        )
+      );
+    }
+  };
+
+
+
+  const deleteTodo = (id: string, closeModal: any) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     closeModal
   };
@@ -70,38 +90,39 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     );
   };
 
- const editTask = (updatedTask: string, id: string) => {
-  setTodos((todos) =>
-    todos.map((todo) =>
-      todo.id === id ? { ...todo, task: updatedTask, isEditing: !todo.isEditing } : todo
-    )
-  );
-};
-
-
-
-const reorder = (id: string) => {
-  setTodos((todos) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, isImportant: !todo.isImportant } : todo
+  const editTask = (updatedTask: string, id: string) => {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, task: updatedTask, isEditing: !todo.isEditing } : todo
+      )
     );
+  };
 
-    // Find the index of the task
-    const taskIndex = updatedTodos.findIndex((todo) => todo.id === id);
 
-    // Move the task to the beginning of the array
-    if (taskIndex !== -1) {
-      const removeTask = updatedTodos.splice(taskIndex, 1)[0];
-      if (removeTask.isImportant){
-      updatedTodos.splice(0, 0, removeTask); }
-      else {  
-        updatedTodos.splice(updatedTodos.length,0, removeTask)
-    } 
-    }
 
-    return updatedTodos;
-  });
-};
+  const reorder = (id: string) => {
+    setTodos((todos) => {
+      const updatedTodos = todos.map((todo) =>
+        todo.id === id ? { ...todo, isImportant: !todo.isImportant } : todo
+      );
+
+      // Find the index of the task
+      const taskIndex = updatedTodos.findIndex((todo) => todo.id === id);
+
+      // Move the task to the beginning of the array
+      if (taskIndex !== -1) {
+        const removeTask = updatedTodos.splice(taskIndex, 1)[0];
+        if (removeTask.isImportant) {
+          updatedTodos.splice(0, 0, removeTask);
+        }
+        else {
+          updatedTodos.splice(updatedTodos.length, 0, removeTask)
+        }
+      }
+
+      return updatedTodos;
+    });
+  };
 
 
   const contextValue: TodoContextValue = {
@@ -121,7 +142,7 @@ const reorder = (id: string) => {
     localStorage.setItem('maviance-todos', JSON.stringify(todos));
   }, [todos]);
 
- 
+
 
   return <TodoContext.Provider value={contextValue}>{children}</TodoContext.Provider>;
 };
@@ -131,11 +152,11 @@ export const useTodoContext = () => {
   if (!context) {
     throw new Error('context must be used within a TodoProvider');
   }
-  
+
   return context;
 };
 
 export const createNewTodo = (type: string, payload: TodoModel) => ({
   type,
-  payload  
+  payload
 })
