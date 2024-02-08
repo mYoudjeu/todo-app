@@ -15,8 +15,8 @@ interface TodoProps {
 }
 
 // Todo component for displaying a single todo item
-  const Todo: React.FC<TodoProps> = ({ task, deleteTodo }) => {
-  const { toggleComplete, editTodo, reorder, currentTodo } = useTodoContext();
+const Todo: React.FC<TodoProps> = ({ task, deleteTodo }) => {
+  const { toggleComplete, editTodo, reorder, currentTodo, sTodo } = useTodoContext();
   const [isImportant, setIsImportant] = useState(task.isImportant);
 
   useEffect(() => {
@@ -27,43 +27,44 @@ interface TodoProps {
     reorder(task.id);
   };
 
+
   return (
     <div className="Todo">
       {/* Click event to call complete class */}
-      <div className="circle-icon"> 
-      <FontAwesomeIcon 
-      icon={task.completed? circleSolid: faCircle}
-      color="#3e69e4"
-      onClick={() => toggleComplete(task.id)}
+      <div className="circle-icon">
+        <FontAwesomeIcon
+          icon={task.completed ? circleSolid : faCircle}
+          color="#3e69e4"
+          onClick={() => toggleComplete(task.id)}
+        />
+      </div>
+      <div className="todo-display" onClick={() => currentTodo(task.task, task.id, task.completed)}>
+        <p
+          {...() => toggleComplete(task.id)}
+          className={`${task.completed ? "completed" : ""}`}
+        >
+          {task.task}
+        </p>
+      </div>
+      <FontAwesomeIcon
+        data-testid="editButton"
+        icon={faPenToSquare}
+        color="#3e69e4"
+        onClick={() => editTodo(task.id)}
       />
-      </div>
-      <div className="todo-display" onClick={() => currentTodo(task.task, task.id)}>
-      <p
-        {...() => toggleComplete(task.id)}
-        className={`${task.completed ? "completed" : ""}`}
-      >
-        {task.task}
-      </p>
-      </div>
-        <FontAwesomeIcon
-          data-testid="editButton"
-          icon={faPenToSquare}
-          color="#3e69e4"
-          onClick={() => editTodo(task.id)}
-        />
-        <FontAwesomeIcon
-          icon={isImportant ? starSolid : faStar}
-          onClick={handleStarClick}
-          type="submit"
-          color="#3e69e4"
-        />
-        <FontAwesomeIcon
-          data-testid="deleteButton"
-          icon={faTrash}
-          color="#a80000"
-          onClick={() => deleteTodo(task.id)}
-        />
-      </div>
+      <FontAwesomeIcon
+        icon={isImportant ? starSolid : faStar}
+        onClick={handleStarClick}
+        type="submit"
+        color="#3e69e4"
+      />
+      <FontAwesomeIcon
+        data-testid="deleteButton"
+        icon={faTrash}
+        color="#a80000"
+        onClick={() => deleteTodo(task.id)}
+      />
+    </div>
   );
 };
 

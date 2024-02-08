@@ -1,5 +1,5 @@
 // TodoContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import TodoModel from "models/TodoModel"
 import currentTodoModel from 'models/currentTodoModel';
@@ -21,7 +21,8 @@ interface TodoContextValue {
   editTodo: (id: string) => void;
   editTask: (updatedTask: string, id: string) => void;
   reorder: (id: string) => void;
-  currentTodo: (task: string, id: string) => void
+  currentTodo: (task: string, id: string, parentComplete: boolean) => void
+  addSubTodo: (subTodo: string, parentId: string, parentComplete: boolean) => void;
 
 }
 const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
@@ -42,14 +43,27 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     ]);
   };
 
-  const currentTodo = (task: string, id: string) => {
+  const addSubTodo = (subTodo: string, parentId: string) => {
+    setSTodo((sTodo) => [
+      ...sTodo,
+      {
+        id: uuidv4(), subTask: subTodo, parentId: parentId, completed: false
+      },
+    ]);
+  };
+
+
+  const currentTodo = (task: string, id: string, parentComplete: boolean) => {
     setCTodo(
-      { todo: task, id: id, openBar: true }
+      { todo: task, id: id, openBar: true, parentComplete: parentComplete }
     );
   };
 
+
   const toggleComplete = (id: string) => {
+
     const subTasksForCurrentTask = JSON.parse(localStorage.getItem(`subtasks-${id}`) || '[]');
+
 
     if (subTasksForCurrentTask.length > 0) {
       // Check if all subtasks are completed
@@ -62,7 +76,6 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
           )
         );
       } else {
-        // Handle the case when not all subtasks are completed (if needed)
         alert("Complete all subtasks first!")
       }
     } else {
@@ -73,12 +86,14 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
         )
       );
     }
+
   };
 
 
-
   const deleteTodo = (id: string, closeModal: any) => {
+    const subTasksForCurrentTask = JSON.parse(localStorage.getItem(`subtasks-${id}`) || '[]');
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+
     closeModal
   };
 
@@ -136,6 +151,7 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     currentTodo,
     cTodo,
     sTodo,
+    addSubTodo
   };
 
   React.useEffect(() => {
