@@ -1,5 +1,5 @@
 // TodoContext.tsx
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import TodoModel from "models/TodoModel"
 import currentTodoModel from 'models/currentTodoModel';
@@ -17,12 +17,12 @@ interface TodoContextValue {
   sTodo: SubTodoModel[]
   addTodo: (newTodo: string) => void;
   toggleComplete: (id: string) => void;
-  deleteTodo: (id: string, closeModal: any) => void;
-  editTodo: (id: string) => void;
+  deleteTodo: (id: string) => void;
   editTask: (updatedTask: string, id: string) => void;
   reorder: (id: string) => void;
   currentTodo: (task: string, id: string, parentComplete: boolean) => void
   addSubTodo: (subTodo: string, parentId: string, parentComplete: boolean) => void;
+
 
 }
 const TASKS = JSON.parse(localStorage.getItem("maviance-todos") || "[]");
@@ -39,8 +39,13 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   const addTodo = (newTodo: string) => {
     setTodos((todos) => [
       ...todos,
-      { id: uuidv4(), task: newTodo, completed: false, isEditing: false, isImportant: false, openSidebar: false },
+      {
+
+        SUB_TASK: JSON.parse(localStorage.getItem(`subtasks-${cTodo?.id}`) || "[]"),
+        id: uuidv4(), task: newTodo, completed: false, isEditing: false, isImportant: false, openSidebar: false, subtasks: SUB_TASK
+      },
     ]);
+
   };
 
   const addSubTodo = (subTodo: string, parentId: string) => {
@@ -64,45 +69,26 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
 
     const subTasksForCurrentTask = JSON.parse(localStorage.getItem(`subtasks-${id}`) || '[]');
 
+    // Check if all subtasks are completed
+    const allSubtasksCompleted = subTasksForCurrentTask.every((subTask: SubTodoModel) => subTask.completed);
 
-    if (subTasksForCurrentTask.length > 0) {
-      // Check if all subtasks are completed
-      const allSubtasksCompleted = subTasksForCurrentTask.every((subTask: SubTodoModel) => subTask.completed);
-
-      if (allSubtasksCompleted) {
-        setTodos((prevTodos) =>
-          prevTodos.map((todo) =>
-            todo.id === id ? { ...todo, completed: !todo.completed } : todo
-          )
-        );
-      } else {
-        alert("Complete all subtasks first!")
-      }
-    } else {
-      // If there are no subtasks, simply toggle the state of the main task
+    if (allSubtasksCompleted || !subTasksForCurrentTask) {
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === id ? { ...todo, completed: !todo.completed } : todo
         )
       );
+    } else {
+      alert("Complete all subtasks first!")
     }
 
+
   };
 
 
-  const deleteTodo = (id: string, closeModal: any) => {
-    const subTasksForCurrentTask = JSON.parse(localStorage.getItem(`subtasks-${id}`) || '[]');
+  const deleteTodo = (id: string) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
 
-    closeModal
-  };
-
-  const editTodo = (id: string) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
-    );
   };
 
   const editTask = (updatedTask: string, id: string) => {
@@ -114,29 +100,12 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
   };
 
 
-
   const reorder = (id: string) => {
-    setTodos((todos) => {
-      const updatedTodos = todos.map((todo) =>
+    setTodos((todos) =>
+      todos.map((todo) =>
         todo.id === id ? { ...todo, isImportant: !todo.isImportant } : todo
-      );
-
-      // Find the index of the task
-      const taskIndex = updatedTodos.findIndex((todo) => todo.id === id);
-
-      // Move the task to the beginning of the array
-      if (taskIndex !== -1) {
-        const removeTask = updatedTodos.splice(taskIndex, 1)[0];
-        if (removeTask.isImportant) {
-          updatedTodos.splice(0, 0, removeTask);
-        }
-        else {
-          updatedTodos.splice(updatedTodos.length, 0, removeTask)
-        }
-      }
-
-      return updatedTodos;
-    });
+      )
+    );
   };
 
 
@@ -145,13 +114,12 @@ export const TodoProvider: React.FC<TodoContextProps> = ({ children }) => {
     addTodo,
     toggleComplete,
     deleteTodo,
-    editTodo,
     editTask,
     reorder,
     currentTodo,
     cTodo,
     sTodo,
-    addSubTodo
+    addSubTodo,
   };
 
   React.useEffect(() => {

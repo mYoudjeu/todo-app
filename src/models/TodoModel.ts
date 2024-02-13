@@ -1,3 +1,5 @@
+import SubTodoModel from "models/SubTodoModel";
+
 interface TodoModel {
   id: string;
   task: string;
@@ -5,6 +7,7 @@ interface TodoModel {
   isEditing: boolean;
   isImportant: boolean;
   openSidebar: boolean;
+  subtasks: SubTodoModel[];
 }
 
 export default TodoModel;

@@ -1,34 +1,20 @@
 // TodoWrapper.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { TodoForm } from 'components/TodoForm';
 import Todo from 'components/Todo';
 import EditTodoForm from 'components/EditTodoForm';
 import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
 import { useTodoContext } from 'TodoContext';
 //import { useTodoContext } from '../TodoContext';
 import { v4 as uuidv4 } from "uuid";
 import SideBar from 'components/SideBar';
-import TodoModel from 'models/TodoModel';
+//import todoImage from "images/todoImage.jpg";
 
 uuidv4();
 
 function TodoWrapper() {
-  const { todos, deleteTodo, toggleComplete } = useTodoContext();
-  const [todo, setTodo] = React.useState<TodoModel | null>(null);
+  const { todos, toggleComplete } = useTodoContext();
   const [filter, setFilter] = React.useState('all');
-  const [open, setOpen] = React.useState(false);
-
-  const onOpenModal = (selectTodo: TodoModel) => {
-    setTodo(selectTodo);
-    setOpen(true);
-  };
-
-  const onCloseModal = () => {
-    setTodo(null);
-    setOpen(false);
-
-  };
 
   const handleSubtaskToggleComplete = (id: string) => {
     // Update the main todo component state here
@@ -46,6 +32,14 @@ function TodoWrapper() {
     }
     return true;
   });
+
+
+  const importantTasks = filteredTodos.filter((task) => task.isImportant);
+  const generalTasks = filteredTodos.filter((task) => !task.isImportant);
+
+  const noTodosMessage = (
+
+    <img src={require('todoImage.jpg')} alt='todo image' height={300} width={300} style={{ marginLeft: 500 }} />)
 
 
 
@@ -68,36 +62,33 @@ function TodoWrapper() {
           </select>
         </div>
 
-        {filteredTodos.map((todo, index) =>
-          todo.isEditing ? (
-            <EditTodoForm task={todo} key={index} />
-          ) : (
-            <Todo
-              task={todo}
-              key={index}
-              deleteTodo={() => onOpenModal(todo)}
-            />
-          )
-        )}
+        {todos.length === 0 ? (
+          <div>{noTodosMessage} </div>
+        ) : (
+          <>
+            {importantTasks.length > 0 && (
+              <div className="important-tasks">
+                <h5>IMPORTANT TASKS</h5>
+                {importantTasks.map((task, index) =>
+                  task?.isEditing ? (<EditTodoForm task={task} key={index} />) :
+                    <Todo task={task} key={index} />
+                )}
+              </div>
+            )}
 
-        <Modal
-          open={open}
-          onClose={onCloseModal}
-          center
-          classNames={{
-            modal: 'modal',
-          }}
-          data-testid="delmodal"
-        >
-          <h3 className="h3">Are you sure you want to delete this task?</h3>
-          <h2>{todo?.task}</h2>
-          <div className=".delete-modal">
-            <button onClick={onCloseModal}>No, Keep</button>
-            <button className="h3" onClick={() => deleteTodo(todo?.id || '', onCloseModal())}>
-              Yes, Delete
-            </button>
-          </div>
-        </Modal>
+            {generalTasks.length > 0 && (
+              <div className="general-tasks">
+                <h5>GENERAL TASKS</h5>
+                {generalTasks.map((task, index) =>
+                  task?.isEditing ? (<EditTodoForm task={task} key={index} />) :
+                    <Todo task={task} key={index} />
+                )}
+              </div>
+            )}
+
+
+          </>
+        )}
       </div>
     </div>
   );

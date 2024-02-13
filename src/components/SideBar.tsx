@@ -62,6 +62,7 @@ function SideBar({ onSubtaskToggleComplete }: SideBarProps) {
       onSubtaskToggleComplete(cTodo?.id || '');
       localStorage.setItem(`subtasks-${cTodo?.id}`, JSON.stringify(updatedSubTasks));
     }
+
   };
 
 
@@ -78,6 +79,7 @@ function SideBar({ onSubtaskToggleComplete }: SideBarProps) {
   };
 
   if (cTodo === null) return null;
+
 
   return (
     <>
