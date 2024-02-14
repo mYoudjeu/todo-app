@@ -84,6 +84,28 @@ h1 {
   margin: 2px;
 }
 
+.keep-btn {
+  background: green;
+  border: 1px solid #999;
+  color: white;
+  border: none;
+  padding: 0.30rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 2px;
+}
+
+.delete-btn {
+  background: red;
+  border: 1px solid #999;
+  color: white;
+  border: none;
+  padding: 0.30rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 2px;
+}
+
 .Todo {
   display: flex;
   align-items: center;
@@ -102,8 +124,8 @@ h1 {
 }
 
 .todo-display{
-  margin: 8px 16px;
-  display: flex;
+  margin: 1px 16px;
+  display: block;
   align-items: center;
   width: -webkit-fill-available;
 }

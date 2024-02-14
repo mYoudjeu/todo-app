@@ -75,16 +75,19 @@ const Todo: React.FC<TodoProps> = ({ task }) => {
             />
           </div>
           <div className="todo-display" onClick={() => currentTodo(task.task, task.id, task.completed)}>
-
-            <p
-              {...() => toggleComplete(task.id)}
-              className={`${task.completed ? "completed" : ""}`}
-            >
-              {task.task}
-            </p>
-            <p>
-              ({subTaskCount} subtasks)
-            </p>
+            <div >
+              <p style={{ marginTop: '-2px' }}
+                {...() => toggleComplete(task.id)}
+                className={`${task.completed ? "completed" : ""}`}
+              >
+                {task.task}
+              </p>
+            </div>
+            <div style={{ width: '100%' }}>
+              <p style={{ marginBottom: '3px', marginTop: '-15px', fontSize: '13px' }}>
+                {subTaskCount} subtasks
+              </p>
+            </div>
           </div>
 
           <FontAwesomeIcon
@@ -116,8 +119,10 @@ const Todo: React.FC<TodoProps> = ({ task }) => {
           >
 
             <h3>Are you sure you want to delete this task?</h3>
-            <button onClick={() => { deleteTodo(task.id); closeModal(); }}>Yes, Delete</button>
-            <button onClick={closeModal}>No, Keep</button>
+            <div>
+              <button className="delete-btn" onClick={() => { deleteTodo(task.id); closeModal(); }}>Yes, Delete</button>
+              <button className="keep-btn" style={{ marginLeft: '195px' }} onClick={closeModal}>No, Keep</button>
+            </div>
           </Modal>
         </div>
 
