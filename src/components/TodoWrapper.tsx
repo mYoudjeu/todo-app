@@ -38,58 +38,66 @@ function TodoWrapper() {
   const generalTasks = filteredTodos.filter((task) => !task.isImportant);
 
   const noTodosMessage = (
-
-    <img src={require('todoImage.jpg')} alt='todo image' height={300} width={300} style={{ marginLeft: 500 }} />)
-
+    <div>
+      <h1 >Create your first Task !!!!</h1>
+      <img src={require('todoImage.png')} alt='todo image' height={300} width={300} className='img' />
+      <div className='todo-form'>
+        <TodoForm />
+      </div>
+    </div>
+  )
+  document.body.classList.add("no-scroll")
 
 
   return (
-    <div className='form-and-filter'>
-      <SideBar onSubtaskToggleComplete={handleSubtaskToggleComplete} />
+    <div className='no-todo'>
+      {todos.length === 0 ? (
+        <div style={{ minWidth: '90%', margin: '100px' }}>{noTodosMessage} </div>
+      ) : (
+        <>
 
-      <div className="TodoWrapper">
-        <h1>Get Tasks Done!</h1>
-        <div className="form-and-filter">
-          <TodoForm />
-          <select
-            className="filter-dropdown"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option value="all">All</option>
-            <option value="completed">Completed</option>
-            <option value="uncompleted">Uncompleted</option>
-          </select>
-        </div>
+          <div className='form-and-filter' >
 
-        {todos.length === 0 ? (
-          <div>{noTodosMessage} </div>
-        ) : (
-          <>
-            {importantTasks.length > 0 && (
-              <div className="important-tasks">
-                <h5>IMPORTANT TASKS</h5>
-                {importantTasks.map((task, index) =>
-                  task?.isEditing ? (<EditTodoForm task={task} key={index} />) :
-                    <Todo task={task} key={index} />
-                )}
+            <SideBar onSubtaskToggleComplete={handleSubtaskToggleComplete} />
+
+            <div className="TodoWrapper">
+              <h1>Get Tasks Done!</h1>
+              <div className="form-and-filter">
+                <TodoForm />
+                <select
+                  className="filter-dropdown"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="completed">Completed</option>
+                  <option value="uncompleted">Uncompleted</option>
+                </select>
               </div>
-            )}
 
-            {generalTasks.length > 0 && (
-              <div className="general-tasks">
-                <h5>GENERAL TASKS</h5>
-                {generalTasks.map((task, index) =>
-                  task?.isEditing ? (<EditTodoForm task={task} key={index} />) :
+
+              {importantTasks.length > 0 && (
+                <div className="important-tasks">
+                  <h5>IMPORTANT TASKS</h5>
+                  {importantTasks.map((task, index) =>
                     <Todo task={task} key={index} />
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
 
-
-          </>
-        )}
-      </div>
+              {generalTasks.length > 0 && (
+                <div className="general-tasks">
+                  <h5>GENERAL TASKS</h5>
+                  {generalTasks.map((task, index) =>
+                    task?.isEditing ? (<EditTodoForm task={task} key={index} />) :
+                      <Todo task={task} key={index} />
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

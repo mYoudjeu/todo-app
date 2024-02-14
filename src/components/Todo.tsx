@@ -18,7 +18,7 @@ interface TodoProps {
 
 // Todo component for displaying a single todo item
 const Todo: React.FC<TodoProps> = ({ task }) => {
-  const { toggleComplete, reorder, currentTodo, cTodo, deleteTodo } = useTodoContext();
+  const { toggleComplete, reorder, currentTodo, cTodo, deleteTodo, todos } = useTodoContext();
   const [isImportant, setIsImportant] = useState(task.isImportant);
   const [subTaskCount, setSubTaskCount] = useState<number>(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -55,8 +55,6 @@ const Todo: React.FC<TodoProps> = ({ task }) => {
     setIsEditing(!isEditing);
   };
 
-
-  const SUB_TASK = JSON.parse(localStorage.getItem(`subtasks-${cTodo?.id}`) || "[]");
 
 
 

@@ -140,7 +140,3 @@ export const useTodoContext = () => {
   return context;
 };
 
-export const createNewTodo = (type: string, payload: TodoModel) => ({
-  type,
-  payload
-})

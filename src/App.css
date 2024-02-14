@@ -12,6 +12,7 @@ h1 {
   margin-bottom: 0.5rem;
   font-size: 1.75rem;
   text-align: center;
+  margin: 0 auto;
 }
 
 .TodoWrapper {
@@ -178,13 +179,29 @@ h1 {
   align-content: center;
   letter-spacing: normal;
 }
-/* Default styles for larger screens */
+
+.todo-form {
+  display: flex;
+  margin-left: 550px;
+}
+
+.img {
+  margin-left: 590px;
+}
+
+.no-todo{
+  min-width: 100%;
+}
 
 /* Media query for screens up to 600px width (small screens) */
 @media only screen and (max-width: 600px) {
   /* Adjust font size for better readability on small screens */
   body {
     font-size: 14px;
+  }
+
+  .img {
+    margin-left: 50px
   }
 
   /* Increase padding and reduce margin for smaller screens */
@@ -239,6 +256,36 @@ h1 {
   .h2 {
     font-size: larger;
   }
+}
+
+@media only screen and (max-width: 800px) {
+
+  .img {
+    margin-left: 200px
+  }
+
+  .todo-form {
+    display: flex;
+    margin-left: 150px;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+  h1{
+    padding-left: 10px;
+  }
+
+  .img{
+    margin-left: 10px;
+  }
+  
+  .todo-form {
+    display: flex;
+    margin-left: 5px;
+  }
+
 }
 
 .modal {
