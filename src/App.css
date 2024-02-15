@@ -202,18 +202,23 @@ h1 {
   letter-spacing: normal;
 }
 
-.todo-form {
-  display: flex;
-  margin-left: 550px;
-}
 
 .img {
-  margin-left: 590px;
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
 }
 
-.no-todo{
-  min-width: 100%;
+.display {
+ min-width: 90%;
+ margin: 100px; 
 }
+
+.margin-align {
+  margin: 0 auto;
+}
+
+
 
 /* Media query for screens up to 600px width (small screens) */
 @media only screen and (max-width: 600px) {
@@ -222,15 +227,13 @@ h1 {
     font-size: 14px;
   }
 
-  .img {
-    margin-left: 50px
-  }
-
   /* Increase padding and reduce margin for smaller screens */
   .TodoWrapper {
     padding: 1rem;
     margin-top: 3rem;
   }
+
+  
 
   /* Adjust width and margin for the input field */
   .todo-input {
@@ -280,28 +283,38 @@ h1 {
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1024px) {
 
-  .img {
-    margin-left: 200px
-  }
 
   .todo-form {
     display: flex;
     margin-left: 150px;
   }
 
+  .display {
+    min-width: 0%;
+    margin: 100px; 
+   }
+
 }
 
 @media only screen and (max-width: 500px) {
 
   h1{
-    padding-left: 10px;
+    padding-top: 85px;
+    padding-left: 0px;
+    font-size: x-large;
   }
 
-  .img{
-    margin-left: 10px;
-  }
+  .display {
+    min-width: 0%;
+    margin: 0px; 
+   }
+
+   .margin-align {
+    margin: 0 20px;
+   }
+
   
   .todo-form {
     display: flex;

@@ -38,10 +38,10 @@ function TodoWrapper() {
   const generalTasks = filteredTodos.filter((task) => !task.isImportant);
 
   const noTodosMessage = (
-    <div>
+    <div style={{ display: 'grid' }}>
       <h1 >Create your first Task !!!!</h1>
       <img src={require('todoImage.png')} alt='todo image' height={300} width={300} className='img' />
-      <div className='todo-form'>
+      <div className='margin-align' style={{ display: 'flex', justifyContent: 'center' }}>
         <TodoForm />
       </div>
     </div>
@@ -50,9 +50,9 @@ function TodoWrapper() {
 
 
   return (
-    <div className='no-todo'>
+    <div style={{ justifyContent: 'center' }}>
       {todos.length === 0 ? (
-        <div style={{ minWidth: '90%', margin: '100px' }}>{noTodosMessage} </div>
+        <div className='display'>{noTodosMessage} </div>
       ) : (
         <>
 
